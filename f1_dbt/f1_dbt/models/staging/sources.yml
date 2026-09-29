@@ -1,0 +1,23 @@
+version: 2
+
+sources:
+
+  - name: silver
+    description: "Cleaned Formula 1 Silver datasets produced by PySpark"
+
+    tables:
+
+      - name: laps
+        config:
+          meta:
+            external_location: "../data/silver/laps/**/*.parquet"
+
+      - name: results
+        config:
+          meta:
+            external_location: "../data/silver/results/**/*.parquet"
+
+      - name: weather
+        config:
+          meta:
+            external_location: "../data/silver/weather/**/*.parquet"

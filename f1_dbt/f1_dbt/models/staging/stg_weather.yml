@@ -1,0 +1,64 @@
+version: 2
+
+models:
+
+  - name: stg_weather
+    description: >
+      Weather observations collected during Formula 1 race sessions.
+      Grain: one weather observation per race and session timestamp.
+
+    columns:
+
+      - name: season
+        description: Formula 1 season.
+        tests:
+          - not_null
+
+      - name: round
+        description: Championship round.
+        tests:
+          - not_null
+
+      - name: time_raw_ns
+        description: Original session time represented in nanoseconds.
+        tests:
+          - not_null
+
+      - name: session_time_seconds
+        description: Session time converted to seconds.
+        tests:
+          - not_null
+
+      - name: air_temp
+        description: Air temperature in degrees Celsius.
+
+      - name: track_temp
+        description: Track surface temperature in degrees Celsius.
+
+      - name: track_air_temp_delta
+        description: Difference between track and air temperature.
+
+      - name: humidity
+        description: Relative humidity percentage.
+
+      - name: pressure
+        description: Atmospheric pressure.
+
+      - name: rainfall
+        description: Whether rainfall was reported.
+
+      - name: weather_condition
+        description: >
+          Simplified weather category derived from rainfall.
+
+      - name: wind_direction
+        description: Wind direction in degrees.
+
+      - name: wind_speed
+        description: Wind speed.
+
+      - name: is_valid_weather
+        description: >
+          Data-quality flag created by the Silver PySpark pipeline.
+        tests:
+          - not_null

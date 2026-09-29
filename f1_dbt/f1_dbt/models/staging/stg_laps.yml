@@ -1,0 +1,44 @@
+version: 2
+
+models:
+
+  - name: stg_laps
+
+    description: >
+      Clean Formula 1 lap-level data produced by the PySpark
+      Silver transformation.
+
+    columns:
+
+      - name: season
+        description: Formula 1 season.
+        data_tests:
+          - not_null
+
+      - name: round
+        description: Championship round.
+        data_tests:
+          - not_null
+
+      - name: driver_code
+        description: Three-letter driver abbreviation.
+        data_tests:
+          - not_null
+
+      - name: lap_number
+        description: Lap number within the race.
+        data_tests:
+          - not_null
+
+      - name: tyer_compound
+        description: Tyre compound used during the lap.
+        data_tests:
+
+          - accepted_values:
+              arguments:
+                values:
+                  - SOFT
+                  - MEDIUM
+                  - HARD
+                  - INTERMEDIATE
+                  - UNKNOWN

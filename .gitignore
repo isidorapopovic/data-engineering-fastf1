@@ -1,0 +1,36 @@
+# Python
+
+.vs/
+.venv/
+venv/
+env/
+__pycache__/
+*.py[cod]
+
+# Local secrets
+.env
+.env.*
+!.env.example
+profiles.yml
+.user.yml
+
+# dbt
+**/target/
+**/logs/
+dbt_packages/
+*.duckdb
+
+# Spark
+**/_SUCCESS
+**/.*.crc
+**/*.crc
+**/.spark-staging/
+
+# caches
+/cache/
+/artifacts/
+
+# Local run output
+/logs/
+/metadata/pipeline_runs.jsonl
+/temp

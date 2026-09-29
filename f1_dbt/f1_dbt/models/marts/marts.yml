@@ -1,0 +1,144 @@
+version: 2
+
+models:
+
+  - name: dim_driver
+    description: "One row per Formula 1 driver."
+
+    columns:
+
+      - name: driver_key
+        tests:
+          - not_null
+          - unique
+
+      - name: driver_id
+        tests:
+          - not_null
+          - unique
+
+
+  - name: dim_team
+    description: "One row per Formula 1 team."
+
+    columns:
+
+      - name: team_key
+        tests:
+          - not_null
+          - unique
+
+
+  - name: dim_event
+    description: "One row per Formula 1 race event."
+
+    columns:
+
+      - name: event_key
+        tests:
+          - not_null
+          - unique
+
+
+  - name: fact_laps
+    description: "One row per driver per race lap."
+
+    columns:
+
+      - name: lap_key
+        tests:
+          - not_null
+          - unique
+
+      - name: driver_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_driver')
+                field: driver_key
+
+      - name: event_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_event')
+                field: event_key
+
+
+  - name: fact_race_results
+    description: "One row per driver per race."
+
+    columns:
+
+      - name: race_result_key
+        tests:
+          - not_null
+          - unique
+
+      - name: driver_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_driver')
+                field: driver_key
+
+      - name: event_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_event')
+                field: event_key
+
+
+  - name: mart_driver_race_performance
+    description: >
+      One row per driver per race with race-result metrics
+      and aggregated lap-performance metrics.
+
+    columns:
+
+      - name: race_result_key
+        tests:
+          - not_null
+          - unique
+
+      - name: event_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_event')
+                field: event_key
+
+      - name: driver_key
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_driver')
+                field: driver_key
+
+      - name: team_key
+        tests:
+          - relationships:
+              arguments:
+                to: ref('dim_team')
+                field: team_key
+
+      - name: season
+        tests:
+          - not_null
+
+      - name: round
+        tests:
+          - not_null
+
+      - name: driver_code
+        tests:
+          - not_null
+
+      - name: finish_position
+        tests:
+          - not_null
