@@ -34,3 +34,7 @@ dbt_packages/
 /logs/
 /metadata/pipeline_runs.jsonl
 /temp
+
+data/bronze/
+data/silver/
+data/gold/
