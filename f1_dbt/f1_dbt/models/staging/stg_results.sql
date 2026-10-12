@@ -15,11 +15,17 @@ renamed as (
         season,
         round,
 
-        driver_id,
+        case
+            when lower(trim(driver_id)) = 'max_verstappen' then 'verstappen'
+            else lower(trim(driver_id))
+        end as driver_id,
         driver_number,
         driver_code,
 
-        team_id,
+        case
+            when lower(trim(team_id)) = 'rb' then 'racing_bulls'
+            else lower(trim(team_id))
+        end as team_id,
         team_name,
 
         first_name,

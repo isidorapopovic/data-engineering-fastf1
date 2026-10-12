@@ -95,7 +95,8 @@ models:
   - name: mart_driver_race_performance
     description: >
       One row per driver per race with race-result metrics
-      and aggregated lap-performance metrics.
+      and aggregated lap-performance metrics. Human-readable season, round,
+      driver, and team columns appear first; surrogate join keys are at the end.
 
     columns:
 

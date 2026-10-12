@@ -101,12 +101,6 @@ events as (
 final as (
 
     select
-        r.race_result_key,
-
-        e.event_key,
-        d.driver_key,
-        t.team_key,
-
         e.season,
         e.round,
 
@@ -147,7 +141,12 @@ final as (
         l.max_speed_trap,
 
         l.pit_laps,
-        l.stint_count
+        l.stint_count,
+
+        r.race_result_key,
+        e.event_key,
+        d.driver_key,
+        t.team_key
 
     from race_results r
 
