@@ -17,7 +17,7 @@ OUTPUT_DIR = (
     / f"round={ROUND:02d}"
 )
 
-# Create output directory
+
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 session = fastf1.get_session(
@@ -35,7 +35,7 @@ session.load(
 
 print("Session loaded.")
 
-# Pick first driver
+
 driver = session.laps["Driver"].dropna().iloc[0]
 
 driver_laps = session.laps.pick_drivers(driver)
@@ -43,7 +43,7 @@ driver_laps = session.laps.pick_drivers(driver)
 print(f"Driver: {driver}")
 print(f"Laps available: {len(driver_laps)}")
 
-# Pick first lap
+
 lap = driver_laps.iloc[0]
 
 telemetry = lap.get_telemetry()
@@ -57,7 +57,7 @@ print(telemetry.shape)
 print("\nSAMPLE")
 print(telemetry.head())
 
-# Save telemetry
+
 output_file = OUTPUT_DIR / "telemetry.parquet"
 
 telemetry.to_parquet(
