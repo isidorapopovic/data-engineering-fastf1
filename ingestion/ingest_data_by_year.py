@@ -7,7 +7,7 @@ import pandas as pd
 from pathlib import Path
 
 
-YEAR=2025
+YEAR=2026
 
 BASE_DIR =Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"

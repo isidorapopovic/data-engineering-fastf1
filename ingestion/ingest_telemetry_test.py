@@ -1,7 +1,7 @@
 import fastf1
 from pathlib import Path
 
-YEAR = 2025
+YEAR = 2024
 ROUND = 1
 
 BASE_DIR = Path(__file__).resolve().parent.parent

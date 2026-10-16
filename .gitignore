@@ -35,12 +35,13 @@ dbt_packages/
 /metadata/pipeline_runs.jsonl
 /temp
 
-data/bronze/
+data/
 data/bronze/season=2025/
 data/silver/
 data/gold/
 
 f1_dbt/f1_dbt/powerbi_exports/
+
 
 # Pipeline metadata
 /metadata/*.db

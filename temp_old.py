@@ -1,4 +1,4 @@
-import fastf1
+""" import fastf1
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import (    StructType,StructField, StringType,IntegerType,DateType,DoubleType, ArrayType, TimestampType
@@ -35,3 +35,4 @@ laps = session.laps
 print(laps.columns)
 print(laps.head())
 
+ """
