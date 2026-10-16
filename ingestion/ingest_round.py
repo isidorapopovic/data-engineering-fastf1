@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from pathlib import Path
 import fastf1
 import pandas as pd
 from config import BASE_DIR, BRONZE_DIR, CACHE_DIR
@@ -8,7 +9,8 @@ from ingestion.state import round_is_complete
 
 fastf1.Cache.enable_cache(str(CACHE_DIR))
 
-def ingest_round (year: int, round_number: int, force: bool = False,)-> dict:
+def ingest_round (year: int, round_number: int, force: bool = False,
+                  output_dir: Path | None = None)-> dict:
     print(f"\nIngesting season={year}, " f"round={round_number}")
 
 
@@ -51,6 +53,8 @@ def ingest_round (year: int, round_number: int, force: bool = False,)-> dict:
             year,
             round_number,
         )
+        if output_dir is not None:
+            output = Path(output_dir) / f"{dataset_name}.parquet"
 
         output.parent.mkdir(
             parents=True,

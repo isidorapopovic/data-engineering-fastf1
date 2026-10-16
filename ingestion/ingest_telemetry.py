@@ -32,7 +32,8 @@ NUMERIC_COLUMNS = [
 
 
 def ingest_telemetry(
-    season: int, round_number: int, session_name: str = "R"
+    season: int, round_number: int, session_name: str = "R",
+    output_dir: Path | None = None,
 ) -> Path:
     """Load one FastF1 session and persist its lap telemetry as raw Parquet."""
     fastf1.Cache.enable_cache(str(CACHE_DIR))
@@ -88,7 +89,7 @@ def ingest_telemetry(
     for column in ("Time", "SessionTime"):
         data[column] = data[column].to_numpy(dtype="timedelta64[ns]").astype("int64")
 
-    output_dir = BRONZE_DIR / str(season) / f"round_{round_number:02d}"
+    output_dir = Path(output_dir) if output_dir is not None else BRONZE_DIR / str(season) / f"round_{round_number:02d}"
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"{session_name.lower()}_telemetry.parquet"
     data.to_parquet(output_path, index=False, coerce_timestamps="us", allow_truncated_timestamps=True)
