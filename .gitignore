@@ -36,6 +36,7 @@ dbt_packages/
 /temp
 
 data/bronze/
+data/bronze/season=2025/
 data/silver/
 data/gold/
 

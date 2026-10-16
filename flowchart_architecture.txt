@@ -1,0 +1,29 @@
+
+flowchart TD
+    A["Apache Airflow Scheduler
+    Every Tuesday 09:00"] --> B["Check FastF1 Race Calendar"]
+    B --> C{"Any completed rounds
+    missing or incomplete?"}
+    C -->|No| D["Log: No new data
+    End successfully"]
+    C -->|Yes| E["Incremental FastF1 Ingestion"]
+    E --> F["Bronze Parquet
+    Results / Laps / Weather"]
+    E --> T["Telemetry Bronze Ingestion"]
+    F --> G["Bronze Data Quality Checks"]
+    G --> H["PySpark Bronze to Silver"]
+    H --> I["Silver Data Quality Checks"]
+    I --> J["dbt Build
+    Dimensions / Facts / Marts"]
+    J --> K["Final Quality Checks"]
+    K --> L["Update Pipeline Metadata"]
+    L --> M["Notify Success"]
+    T --> N["Telemetry Validation
+    Separate Branch"]
+    N --> O["Telemetry Silver
+    After Compatibility Fix"]
+    O --> J
+    E -->|Failure| X["Retry / Alert"]
+    G -->|Failure| X
+    I -->|Failure| X
+    J -->|Failure| X

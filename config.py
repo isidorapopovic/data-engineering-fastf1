@@ -1,8 +1,21 @@
+import os
 from pathlib import Path
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
-YEAR = 2025
 
 BASE_DIR = Path(__file__).resolve().parent
+
+#YEAR = 2026
+YEAR = int(
+    os.getenv(
+        "F1_SEASON",
+        datetime.now(
+            ZoneInfo("Europe/Belgrade")
+        ).year
+    )
+)
+
 
 DATA_DIR = BASE_DIR / "data"
 BRONZE_DIR = DATA_DIR / "bronze"
