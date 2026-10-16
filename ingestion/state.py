@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pandas as pd
+
 
 DATASETS = [
     "laps",
@@ -24,6 +26,27 @@ def dataset_path(
     )
 
 
+def dataset_is_valid(path: Path) -> bool:
+    """
+    Verify that a Parquet file exists,
+    is readable, and is not empty.
+    """
+
+    if not path.is_file():
+        return False
+
+    try:
+        dataframe = pd.read_parquet(path)
+
+        return (
+            len(dataframe) > 0
+            and len(dataframe.columns) > 0
+        )
+
+    except Exception:
+        return False
+
+
 def round_is_complete(
     bronze_dir: Path,
     year: int,
@@ -31,11 +54,13 @@ def round_is_complete(
 ) -> bool:
 
     return all(
-        dataset_path(
-            bronze_dir,
-            dataset,
-            year,
-            round_number,
-        ).exists()
+        dataset_is_valid(
+            dataset_path(
+                bronze_dir,
+                dataset,
+                year,
+                round_number,
+            )
+        )
         for dataset in DATASETS
     )

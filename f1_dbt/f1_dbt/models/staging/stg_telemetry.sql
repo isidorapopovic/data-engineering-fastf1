@@ -4,7 +4,7 @@ select
 cast (season as integer) as season, 
 cast (round as integer) as round,
 upper(trim(session)) as session,
-upper(trim(driver)) as driver,
+upper(trim(driver)) as driver_code,
 cast(lap_number as integer) as lap_number,
 cast(sample_index as integer) as sample_index,
 cast(timestamp_utc as timestamp) as timestamp_utc,
@@ -19,6 +19,6 @@ cast(distance as double) as distance_m
 
 from read_parquet(
     '{{ var("silver_telemetry_path") }}',
-    hive_partitioning=false,
+    hive_partitioning=true,
     union_by_name=true
 )

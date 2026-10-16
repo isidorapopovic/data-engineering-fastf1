@@ -41,3 +41,16 @@ data/silver/
 data/gold/
 
 f1_dbt/f1_dbt/powerbi_exports/
+
+# Pipeline metadata
+/metadata/*.db
+/metadata/*.db-journal
+/metadata/*.db-wal
+/metadata/*.db-shm
+/metadata/*.sqlite
+/metadata/*.sqlite3
+
+# Python tests
+.pytest_cache/
+.coverage
+htmlcov/

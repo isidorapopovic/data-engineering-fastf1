@@ -1,3 +1,4 @@
+import os
 
 from pathlib import Path
 from functools import reduce
@@ -17,7 +18,7 @@ from pyspark.sql.types import (
 )
 
 
-YEAR = 2025
+YEAR = int(os.environ.get("F1_SEASON", "2025"))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -30,7 +31,7 @@ spark = (
     SparkSession.builder
     .appName("F1BronzeSilverTelemetry")
     .master("local[*]")
-    .getOrCreate()
+    .config("spark.sql.sources.partitionOverwriteMode", "dynamic").getOrCreate()
 )
 
 
@@ -110,6 +111,8 @@ base_schema = StructType([
     StructField("Y", DoubleType(), True),
     StructField("Z", DoubleType(), True),
     StructField("Driver", StringType(), True),
+    StructField("Session", StringType(), True),
+    StructField("SampleIndex", LongType(), True),
     StructField("LapNumber", DoubleType(), True)
 ])
 
@@ -199,6 +202,9 @@ telemetry_silver = telemetry.select(
     F.col("round").cast("int").alias("round"),
 
     F.upper(F.trim(F.col("Driver"))).alias("driver"),
+    F.upper(F.trim(F.col("Session"))).alias("session"),
+    F.col("SampleIndex").cast("int").alias("sample_index"),
+    F.col("Date").alias("timestamp_utc"),
 
     F.col("LapNumber").cast("int").alias("lap_number"),
 

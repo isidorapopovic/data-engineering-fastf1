@@ -20,7 +20,7 @@ import os
 from pathlib import Path
 
 
-YEAR=2025
+YEAR = int(os.environ.get("F1_SEASON", "2025"))
 
 BASE_DIR=Path(__file__).resolve().parent.parent
 
@@ -28,7 +28,7 @@ BRONZE_DIR = BASE_DIR / "data" / "bronze" / "weather"
 
 SILVER_DIR=BASE_DIR/"data"/"silver"
 
-spark=SparkSession.builder.appName("F1BronzeSilver").master("local[*]").getOrCreate()
+spark=SparkSession.builder.appName("F1BronzeSilver").master("local[*]").config("spark.sql.sources.partitionOverwriteMode", "dynamic").getOrCreate()
 
 weather_files=sorted(BRONZE_DIR.glob(f"season={YEAR}/round=*/data.parquet"))
 weather_paths = [str(path) for path in weather_files]

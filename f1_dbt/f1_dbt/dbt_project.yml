@@ -11,6 +11,7 @@ profile: 'f1_dbt'
 
 vars:
   silver_laps_path: "../../data/silver/laps/**/*.parquet"
+  silver_telemetry_path: "../../data/silver/telemetry/**/*.parquet"
 
 # These configurations specify where dbt should look for different types of files.
 # The `model-paths` config, for example, states that models in this project can be

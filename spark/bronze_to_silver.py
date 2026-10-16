@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 
 
-YEAR=2025
+YEAR = int(os.environ.get("F1_SEASON", "2025"))
 
 BASE_DIR=Path(__file__).resolve().parent.parent
 
@@ -15,7 +15,7 @@ BRONZE_DIR = (BASE_DIR / "data" / "bronze" / "laps" / f"season={YEAR}")
 
 SILVER_DIR=BASE_DIR/"data"/"silver"
 
-spark=SparkSession.builder.appName("F1BronzeSilver").master("local[*]").getOrCreate()
+spark=SparkSession.builder.appName("F1BronzeSilver").master("local[*]").config("spark.sql.sources.partitionOverwriteMode", "dynamic").getOrCreate()
 
 laps_files=sorted(BRONZE_DIR.glob("round=*/data.parquet"))
 laps_paths = [str(path) for path in laps_files]
@@ -66,7 +66,7 @@ sessions_schema = StructType([
     StructField("TrackStatus", StringType(), True),
     StructField("Position", DoubleType(), True),
 
-    StructField("Deleted", IntegerType(), True),
+    StructField("Deleted", BooleanType(), True),
     StructField("DeletedReason", StringType(), True),
 
     StructField("FastF1Generated", BooleanType(), True),
@@ -111,7 +111,7 @@ silver_laps=(laps_schema.select(F.lit(YEAR).cast("int").alias("season"),
              F.col("FastF1Generated").alias("is_fastf1_generated"),
              F.col("IsAccurate").alias("is_accurate"),
 
-             F.when(F.col("Deleted")==1, F.lit(True)).when(F.col("Deleted")==0, F.lit(False)).otherwise(F.lit(None).cast("boolean")).alias("is_deleted")
+             F.col("Deleted").cast("boolean").alias("is_deleted")
 
 ))
 

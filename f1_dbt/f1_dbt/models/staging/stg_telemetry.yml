@@ -23,7 +23,7 @@ models:
         tests:
           - not_null
 
-      - name: driver
+      - name: driver_code
         description: Driver identifier, trimmed and converted to uppercase.
         tests:
           - not_null

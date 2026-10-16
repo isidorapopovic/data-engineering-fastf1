@@ -22,22 +22,25 @@ def ingest_round (year: int, round_number: int, force: bool = False,)-> dict:
     success_file.parent.mkdir(
         parents=True,
         exist_ok=True,)
+    success_file.unlink(missing_ok=True)
     
-    success_file.touch()
 
 
     
     session=fastf1.get_session(year, round_number, "R",)
     session.load(laps=True, telemetry=False, weather=True, messages=False,)
     ingested_at = datetime.now(timezone.utc)
-    results=pd.DataFrame(session.results).copy
+    results=pd.DataFrame(session.results).copy()
     results["ingested_at"] = ingested_at
-    laps=pd.DataFrame(session.laps).copy
+    laps=pd.DataFrame(session.laps).copy()
     laps["ingested_at"] = ingested_at
-    weather=pd.DataFrame(session.weather_data).copy
+    weather=pd.DataFrame(session.weather_data).copy()
     weather["ingested_at"] = ingested_at
 
     datasets={"results":results, "laps":laps, "weather":weather}
+    for name, dataframe in datasets.items():
+        if dataframe.empty:
+            raise ValueError(f"No {name} data loaded for {year} round {round_number}")
     row_counts={}
 
     for dataset_name, dataframe in datasets.items():
@@ -57,6 +60,8 @@ def ingest_round (year: int, round_number: int, force: bool = False,)-> dict:
         dataframe.to_parquet(
             output,
             index=False,
+            coerce_timestamps="us",
+            allow_truncated_timestamps=True,
         )
 
         row_counts[dataset_name] = len(
@@ -68,4 +73,5 @@ def ingest_round (year: int, round_number: int, force: bool = False,)-> dict:
             f"{len(dataframe)} rows"
         )
 
+    success_file.touch()
     return row_counts

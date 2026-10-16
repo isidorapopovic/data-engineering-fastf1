@@ -1,0 +1,6 @@
+# Install on the Linux/WSL Airflow worker using the constraints for its
+# Python and Airflow versions. Keep Airflow separate from Windows dev envs.
+apache-airflow>=3.0,<4
+pendulum>=3,<4
+-r requirements.txt
+dbt-duckdb>=1.9,<2

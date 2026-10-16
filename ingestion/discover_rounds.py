@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 import fastf1
+import pandas as pd
 
 from config import YEAR, BRONZE_DIR
 from ingestion.state import round_is_complete
@@ -23,10 +24,11 @@ def get_completed_rounds(year: int) -> list[int]:
 
         event_date = event["EventDate"]
 
-        if event_date is None:
+        if pd.isna(event_date):
             continue
 
-        if event_date.date() <= today:
+        # A race scheduled today may still be running or awaiting publication.
+        if event_date.date() < today:
             completed.append(round_number)
 
     return completed
