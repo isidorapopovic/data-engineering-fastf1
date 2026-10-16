@@ -38,3 +38,5 @@ dbt_packages/
 data/bronze/
 data/silver/
 data/gold/
+
+f1_dbt/f1_dbt/powerbi_exports/
