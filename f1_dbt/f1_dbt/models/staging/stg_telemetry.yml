@@ -1,0 +1,62 @@
+version: 2
+
+models:
+
+  - name: stg_telemetry
+    description: >
+      Staged Formula 1 telemetry information.
+      Grain: one telemetry sample per driver, lap, and session within a race.
+
+    columns:
+      - name: season
+        description: Formula 1 season.
+        tests:
+          - not_null
+
+      - name: round
+        description: Championship round number.
+        tests:
+          - not_null
+
+      - name: session
+        description: Session identifier, trimmed and converted to uppercase.
+        tests:
+          - not_null
+
+      - name: driver
+        description: Driver identifier, trimmed and converted to uppercase.
+        tests:
+          - not_null
+
+      - name: lap_number
+        description: Lap number of the telemetry data point.
+
+      - name: sample_index
+        description: Index identifying the telemetry sample within its source sequence.
+
+      - name: timestamp_utc
+        description: UTC timestamp of the telemetry sample.
+
+      - name: time_seconds
+        description: Elapsed time in seconds from the source telemetry time reference.
+
+      - name: speed_kmh
+        description: Speed in km/h.
+
+      - name: rpm
+        description: Engine revolutions per minute.
+
+      - name: gear
+        description: Selected gear number.
+
+      - name: throttle_pct
+        description: Throttle position percentage.
+
+      - name: brake
+        description: Boolean indicating whether the driver is braking.
+
+      - name: drs
+        description: DRS status code from the source telemetry.
+
+      - name: distance_m
+        description: Distance in meters from the source telemetry distance reference.

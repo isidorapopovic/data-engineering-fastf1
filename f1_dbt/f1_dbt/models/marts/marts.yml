@@ -143,3 +143,79 @@ models:
       - name: finish_position
         tests:
           - not_null
+
+
+  - name: fact_telemetry
+    description: >
+      Sample-level Formula 1 car telemetry,
+      connected to driver and event dimensions.
+
+    columns:
+
+      - name: telemetry_key
+        data_tests:
+          - not_null
+          - unique
+
+      - name: driver_code
+        data_tests:
+          - not_null
+
+      - name: event_key
+        data_tests:
+          - not_null
+
+      - name: driver_key
+        data_tests:
+          - not_null
+
+
+  - name: mart_telemetry_lap
+    description: >
+      Telemetry statistics for each driver lap.
+
+    columns:
+
+      - name: season
+        data_tests:
+          - not_null
+
+      - name: round
+        data_tests:
+          - not_null
+
+      - name: driver_code
+        data_tests:
+          - not_null
+
+      - name: lap_number
+        data_tests:
+          - not_null
+
+      - name: telemetry_samples
+        data_tests:
+          - not_null
+
+
+  - name: mart_telemetry_driver_race
+    description: >
+      Race-level telemetry statistics per driver.
+
+    columns:
+
+      - name: season
+        data_tests:
+          - not_null
+
+      - name: round
+        data_tests:
+          - not_null
+
+      - name: driver_code
+        data_tests:
+          - not_null
+
+      - name: total_telemetry_samples
+        data_tests:
+          - not_null
+

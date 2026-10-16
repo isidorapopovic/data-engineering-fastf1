@@ -1,16 +1,17 @@
-import argparse 
+import argparse
 import json
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
 import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 import fastf1
 
-BASE_DIR=Path(__file__).resolve().parent.parent
-BRONZE_DIR=BASE_DIR / "data" / "bronze" /"telemetry"
-CACHE_DIR=BASE_DIR / "cache"
+BASE_DIR = Path(__file__).resolve().parent.parent
+BRONZE_DIR = BASE_DIR / "data" / "bronze" / "telemetry"
+CACHE_DIR = BASE_DIR / "cache"
 
 BRONZE_DIR.mkdir(parents=True, exist_ok=True)
 CACHE_DIR.mkdir(parents=True, exist_ok=True)
@@ -67,7 +68,11 @@ def ingest_telemetry(
         column for column in NUMERIC_COLUMNS if column in data.columns
     ]
     metadata_columns = [
-        "Season", "Round", "Session", "Driver", "LapNumber"
+        "Season",
+        "Round",
+        "Session",
+        "Driver",
+        "LapNumber",
     ]
     data = data[metadata_columns + available_numeric_columns]
 
@@ -95,7 +100,11 @@ def main() -> None:
         action="store_true",
         help="Ingest the selected session for every scheduled round.",
     )
-    parser.add_argument("--session", default="R", help="FastF1 session code (default: R)")
+    parser.add_argument(
+        "--session",
+        default="R",
+        help="FastF1 session code (default: R)",
+    )
     args = parser.parse_args()
 
     if args.all_rounds:
